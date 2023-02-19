@@ -19,11 +19,13 @@ jobs:
         with:
           fetch-depth: 0  # for posts's lastmod
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
-          ruby-version: 2.7
-          bundler-cache: true
+          submodules: 'recursive'
+        runs-on: ubuntu-latest
+        node-version: '16.x'
 
       - name: Deploy
         run: bash tools/deploy.sh
