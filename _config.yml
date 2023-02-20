@@ -22,8 +22,8 @@ title: Ramon Roldan                          # the main title
 
 tagline: Passionate about data and technology. +4 yrs of experience with R, SQL, Python, Power BI and Tableau. Background in sourcing strategy and project management.   # it will display as the sub-title
 
-description: >-                        # used by seo meta and the atom feed
-Passionate about data and technology. +4 yrs of experience with R, SQL, Python, Power BI and Tableau. Background in sourcing strategy and project management.
+description: Passionate about data and technology. +4 yrs of experience with R, SQL, Python, Power BI and Tableau. Background in sourcing strategy and project management. # used by seo meta and the atom feed
+
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: 'https://roldanramon.github.io'
