@@ -2,12 +2,13 @@
 title: "Compra de Pneus"
 author: "Ramon Roldan"
 date: "2023-02-19"
-categories: [Data Science, Tydeverse]
-tags: [Tydeverse, Web Scrapping, Analitycs, Dashboard, Data Science, ETL]
+categories: [Data Science, Tydeverse, Web Scrapping]
+tags: [Tydeverse, Web Scrapping, Analitycs, Dashboard, Data Science, ETL, Git, GitHub, R, Linux, GGPLOT]
 ---
+
 ## Principal Objetivo
 
-Este estudo busca utilizar técnicas de Data Science juntamente com strategic sourcing e metodologias ageis para sugerir a melhor opção de compra de pneus conforme opções do mercado varejista online.
+Este estudo busca utilizar técnicas de Data Science juntamente com strategic sourcing e metodologias ágeis para sugerir a melhor opção de compra de pneus conforme opções do mercado varejista online.
 
 O produto que procuramos é um pneu aro 14 e será escolhido conforme melhor nota no indicador aqui criado: "Nota_Conceitual".
 
@@ -19,29 +20,63 @@ Orientado para cultura de data driven, e muita experiencia na área de supriment
 
 ## Organização do Trabalho
 
-Buscando eficiência divideremos o trabalho em duas grandes partes:
+### Breve Explicação
 
-1- Consultar o site do inmetro para: \* Analisar quais critérios a organização reguladora considera como essenciais. \* Esta etapa também visa entender quem são os principais fornecedores e principais produtos.
+Buscando eficiência dividiremos o trabalho em grandes partes:
 
-A ideia é não deixarmos de fora algum produto e/ou fornecedor de boa qualidade, mas com pouca relevancia no mercado varejista online.
+1- Consultar o site do INMETRO para: \* Analisar quais critérios a organização reguladora considera como essenciais. \* Esta etapa também visa entender quem são os principais fornecedores e principais produtos.
 
-2- Realizar uma consulta de mercado em todos os produtos disponíveis no site pneus store, que se enquadrem nas caractéristicas do produto que procuramos, para entender as condições comerciais como preço, prazo de entrega e valor do frete.
+A ideia é não deixarmos de fora algum produto e/ou fornecedor de boa qualidade, mas com pouca relevância no mercado varejista online.
 
-**Principais Etapas do Estudo**:
+2- Realizar uma consulta de mercado em todos os produtos disponíveis no site pneus store, que se enquadrem nas características do produto que procuramos, para entender as condições comerciais como preço, prazo de entrega e valor do frete.
 
--   Definição do principal objetivo a ser alcançado;
--   Detalhes sobre a Motivação deste Estudo;
--   Versionar Projeto no GitHub;
--   Detalhes sobre as fontes de dados;
--   Coleta dos dados;
--   Realizar análise diagnostica;
--   Realizar analise Inferencial
+3- Escolher o melhor produto, conforme desempenho na nota conceitual, e realizar a compra.
+
+### Cronograma de Projeto
+
+Utilizamos o gráfico de Gantt para elaborar um cronograma de projeto, para organizar tempos e processos, e estimamos 20 dias de trabalho.
+
+Observação: Vale a pena destacar que trabalhei conforme disponibilidade diária após o expediente de trabalho, usando apróximadamente duas horas em cada dia.
+
+
+```r
+# Criar um conjunto de dados fictício
+dados <- tibble(
+  tarefa = c("Definição do principal objetivo a ser alcançado",
+             "Versionar Projeto no GitHub, Criar Kanban, e Cronograma de Gantt",
+             "Fonte de dados: Estudar site do INMETRO e Pneus Store",
+             "Coleta de Dados: Realizar Web Scrapping e Tratamento (EDA)",
+             "Realizar Análise Inferencial: Nota Conceitual e Financeiro",
+             "Estruturar Informações no Artigo"),
+  inicio = as.Date(c("2023-01-28", "2023-01-29", "2023-01-31","2023-02-06","2023-02-12","2023-02-14")),
+  fim = as.Date(c("2023-01-29", "2023-01-30", "2023-02-05","2023-02-12","2023-02-14","2023-02-19"))
+) %>% mutate(tarefa = fct_inorder(tarefa))
+
+# Calcular a diferença de tempo em dias
+dados$duracao <- as.numeric(dados$fim - dados$inicio)
+
+# Converter a coluna de difftime em um formato de data
+dados$inicio <- as.Date(dados$inicio)
+
+# Criar o gráfico de Gantt com o ggplot
+ggplot(dados, aes(x = inicio, y = tarefa, xend = fim, yend = tarefa, color = tarefa)) +
+  geom_segment(size = 10,show.legend = FALSE) +
+  theme_light()+
+  scale_x_date(date_labels = "%d/%m/%Y",date_breaks = "3 days", limits = c(min(dados$inicio),max(dados$fim))) +
+  geom_text(aes(x = inicio + duracao/2, y = tarefa, label = paste0(duracao, " dias")),color="white")+
+  theme(axis.text.x = element_text(angle = 45))+
+  labs(title = "Cronograma do Projeto", x = "", y = "", fill = "",subtitle = paste("Duração Total:",sum(as.numeric(dados$fim - dados$inicio)),"Dias"))
+```
+
+![Imagem do Repositório](/assets/img/compra_pneus/cronograma_do_projeto.png)
 
 ### Versionar projeto no GitHub
 
-O trabalho foi desenvolvido usando um "Projeto" dentro da IDE Rstudio, e também criamos um repositorio para ajudar no armazenamento e versionamento de todos os arquivos do projeto.
+O trabalho foi desenvolvido usando um "Projeto" dentro da IDE Rstudio, e também criamos um repositório para ajudar no armazenamento e versionamento de todos os arquivos do projeto.
 
 ![Imagem do Repositório](/assets/img/compra_pneus/print_github.png)
+
+### Organização no Kanban
 
 Adotamos a ferramenta Kanban para organizar as atividades do projeto no formato de metodologia ágil:
 
@@ -49,11 +84,11 @@ Adotamos a ferramenta Kanban para organizar as atividades do projeto no formato 
 
 ## Detalhes sobre a Fonte de Dados
 
-### Informações do Inmetro
+### Informações do INMETRO
 
-O Instituto Nacional de Metrologia, Qualidade e Tecnologia [Inmetro](https://dados.gov.br/dados/conjuntos-dados/programa-brasileiro-de-etiquetagem-pbe) é uma autarquia federal vinculada ao Ministério da Economia. Sua missão institucional é prover confiança à sociedade brasileira nas medições e na qualidade dos produtos, por meio da Metrologia e da Avaliação da Conformidade, promovendo a harmonização das relações de consumo, a inovação e a competitividade do País.
+O Instituto Nacional de Metrologia, Qualidade e Tecnologia [INMETRO](https://dados.gov.br/dados/conjuntos-dados/programa-brasileiro-de-etiquetagem-pbe) é uma autarquia federal vinculada ao Ministério da Economia. Sua missão institucional é prover confiança à sociedade brasileira nas medições e na qualidade dos produtos, por meio da Metrologia e da Avaliação da Conformidade, promovendo a harmonização das relações de consumo, a inovação e a competitividade do País.
 
-Neste trabalho utilizaremos os dados abertos do Programa Brasileiro de Etiquetagem (PBE), disponibilizados pelo governo federal, para auxilar na escolha pautada em dados:
+Neste trabalho utilizaremos os dados abertos do Programa Brasileiro de Etiquetagem (PBE), disponibilizados pelo governo federal, para auxiliar na escolha pautada em dados:
 
 ![Imagem da Etiqueta](/assets/img/compra_pneus/pneu.png)
 
@@ -61,11 +96,11 @@ Este [Video](https://www.youtube.com/watch?v=867SbL5RulU) didatico explica com m
 
 ### Loja Pneu Store
 
-A [Pneu Store](https://www.pneustore.com.br/) é uma loja online especializada na comercialização de pneus para veiculos em todo o territorio Brasileiro.
+A [Pneu Store](https://www.pneustore.com.br/) é uma loja online especializada na comercialização de pneus para veículos em todo o território Brasileiro.
 
 Este site é referência de mercado por apresentar detalhes técnicos dos produtos, bem como preços competitivos de marcas renomeadas, e boas avaliações no reclame aqui.
 
-Vale a pena destacar que tive indicações tanto de alguns profissinais da área, mecânicos, quanto de amigos meus, consumidores finais, que compram e ainda não tiveram problema.
+Vale a pena destacar que tive indicações tanto de alguns profissionais da área, mecânicos, quanto de amigos meus, consumidores finais, que compram e ainda não tiveram problema.
 
 No [video](https://www.youtube.com/watch?v=QIWJH8xKxcM) tem todo um estudo detalhado sobre confiabilidade do site.
 
@@ -132,45 +167,45 @@ bases_pneus_store %>% glimpse()
 ```
 ## Rows: 69
 ## Columns: 36
-## $ link                       [3m[38;5;246m<chr>[39m[23m "https://www.pneustore.com.br/categori…
-## $ marca                      [3m[38;5;246m<chr>[39m[23m "FORMULA", "FIRESTONE", "COOPER", "FOR…
-## $ fabricante                 [3m[38;5;246m<chr>[39m[23m "PIRELLI", "BRIDGESTONE", "GOODYEAR", …
-## $ modelo                     [3m[38;5;246m<chr>[39m[23m "FORMULA ENERGY", "F-600", "CS1", "FOR…
-## $ medida                     [3m[38;5;246m<chr>[39m[23m "175/65R14", "175/65R14", "175/65R14",…
-## $ largura                    [3m[38;5;246m<chr>[39m[23m "175mm", "175mm", "175mm", "175mm", "1…
-## $ perfil                     [3m[38;5;246m<chr>[39m[23m "65%", "65%", "65%", "65%", "65%", "65…
-## $ aro                        [3m[38;5;246m<chr>[39m[23m "14", "14", "14", "14", "14", "14", "1…
-## $ diametro_total_em_mm       [3m[38;5;246m<chr>[39m[23m "583.1", "583.1", "583.1", "583.1", "5…
-## $ indice_de_peso             [3m[38;5;246m<dbl>[39m[23m 475, 475, 475, 475, 475, 475, 475, 530…
-## $ indice_de_velocidade       [3m[38;5;246m<dbl>[39m[23m 190, 190, 190, 190, 210, 190, 190, 190…
-## $ rft_run_flat               [3m[38;5;246m<chr>[39m[23m "NÃO", "NÃO", "NÃO", "NÃO", "NÃO", "NÃ…
-## $ tipo_de_construcao         [3m[38;5;246m<chr>[39m[23m "RADIAL", "RADIAL", "RADIAL", "RADIAL"…
-## $ peso                       [3m[38;5;246m<chr>[39m[23m "6.572", "6.351", "6.88", "6.572", "6.…
-## $ extra_load                 [3m[38;5;246m<chr>[39m[23m "NÃO", "NÃO", "NÃO", "NÃO", "NÃO", "SI…
-## $ protetor_de_bordas         [3m[38;5;246m<chr>[39m[23m "NÃO", "NÃO", "NÃO", "NÃO", "NÃO", "NÃ…
-## $ sidewall                   [3m[38;5;246m<chr>[39m[23m "BSW LETRAS PRETAS", "BSW LETRAS PRETA…
-## $ tipo_de_terreno            [3m[38;5;246m<chr>[39m[23m "HT", "HT", "HT", "HT", "HT", "HT", "H…
-## $ desenho                    [3m[38;5;246m<chr>[39m[23m "Assimétrico", "Assimétrico", "Simétri…
-## $ utqg                       [3m[38;5;246m<chr>[39m[23m "180AB", "200BB", "440BB", "180AB", "4…
-## $ treadwear                  [3m[38;5;246m<chr>[39m[23m "180", "200", "440", "180", "460", NA,…
-## $ tracao                     [3m[38;5;246m<chr>[39m[23m "A", "B", "B", "A", "A", NA, "B", "A",…
-## $ temperatura                [3m[38;5;246m<chr>[39m[23m "B", "B", "B", "B", "B", NA, "B", "A",…
-## $ registro_inmetro           [3m[38;5;246m<chr>[39m[23m "001387/2012", "002713/2012", "010142/…
-## $ garantia                   [3m[38;5;246m<chr>[39m[23m "5 anos Contra Defeito de Fabricação",…
-## $ observacoes                [3m[38;5;246m<chr>[39m[23m "Produto novo,Imagem meramente ilustra…
-## $ profundidade_do_sulco      [3m[38;5;246m<chr>[39m[23m NA, NA, NA, NA, "7.5", NA, NA, NA, NA,…
-## $ tala_da_roda               [3m[38;5;246m<chr>[39m[23m NA, NA, NA, NA, "5.0", NA, NA, NA, "5"…
-## $ tala_possiveis_da_roda     [3m[38;5;246m<chr>[39m[23m NA, NA, NA, NA, "6", NA, NA, NA, "5-6"…
-## $ tipo_de_montagem           [3m[38;5;246m<chr>[39m[23m NA, NA, NA, NA, NA, NA, NA, "SEM CÂMAR…
-## $ nome                       [3m[38;5;246m<list>[39m[23m "Pneu Formula by Pirelli Aro 14 Formu…
-## $ resistencia_ao_rolamento   [3m[38;5;246m<list>[39m[23m "E", "E", "E", "E", "E", "E", "E", "E…
-## $ aderencia_em_pista_molhada [3m[38;5;246m<list>[39m[23m "E", "E", "F", "E", "E", "E", "F", "C…
-## $ ruido_externo              [3m[38;5;246m<list>[39m[23m "HIGH", "MEDIUM", "MEDIUM", "HIGH", "…
-## $ preco_a_vista              [3m[38;5;246m<list>[39m[23m 329.9, 319.9, 349.9, 1495.61, 1359.6,…
-## $ preco_parcelado            [3m[38;5;246m<list>[39m[23m 374.89, 363.52, 397.61, 1699.56, 1545…
+## $ link                       [3m[38;5;246m<chr>[39m[23m "https://www.pneustore.co…
+## $ marca                      [3m[38;5;246m<chr>[39m[23m "FORMULA", "FIRESTONE", "…
+## $ fabricante                 [3m[38;5;246m<chr>[39m[23m "PIRELLI", "BRIDGESTONE",…
+## $ modelo                     [3m[38;5;246m<chr>[39m[23m "FORMULA ENERGY", "F-600"…
+## $ medida                     [3m[38;5;246m<chr>[39m[23m "175/65R14", "175/65R14",…
+## $ largura                    [3m[38;5;246m<chr>[39m[23m "175mm", "175mm", "175mm"…
+## $ perfil                     [3m[38;5;246m<chr>[39m[23m "65%", "65%", "65%", "65%…
+## $ aro                        [3m[38;5;246m<chr>[39m[23m "14", "14", "14", "14", "…
+## $ diametro_total_em_mm       [3m[38;5;246m<chr>[39m[23m "583.1", "583.1", "583.1"…
+## $ indice_de_peso             [3m[38;5;246m<dbl>[39m[23m 475, 475, 475, 475, 475, …
+## $ indice_de_velocidade       [3m[38;5;246m<dbl>[39m[23m 190, 190, 190, 190, 210, …
+## $ rft_run_flat               [3m[38;5;246m<chr>[39m[23m "NÃO", "NÃO", "NÃO", "NÃO…
+## $ tipo_de_construcao         [3m[38;5;246m<chr>[39m[23m "RADIAL", "RADIAL", "RADI…
+## $ peso                       [3m[38;5;246m<chr>[39m[23m "6.572", "6.351", "6.88",…
+## $ extra_load                 [3m[38;5;246m<chr>[39m[23m "NÃO", "NÃO", "NÃO", "NÃO…
+## $ protetor_de_bordas         [3m[38;5;246m<chr>[39m[23m "NÃO", "NÃO", "NÃO", "NÃO…
+## $ sidewall                   [3m[38;5;246m<chr>[39m[23m "BSW LETRAS PRETAS", "BSW…
+## $ tipo_de_terreno            [3m[38;5;246m<chr>[39m[23m "HT", "HT", "HT", "HT", "…
+## $ desenho                    [3m[38;5;246m<chr>[39m[23m "Assimétrico", "Assimétri…
+## $ utqg                       [3m[38;5;246m<chr>[39m[23m "180AB", "200BB", "440BB"…
+## $ treadwear                  [3m[38;5;246m<chr>[39m[23m "180", "200", "440", "180…
+## $ tracao                     [3m[38;5;246m<chr>[39m[23m "A", "B", "B", "A", "A", …
+## $ temperatura                [3m[38;5;246m<chr>[39m[23m "B", "B", "B", "B", "B", …
+## $ registro_inmetro           [3m[38;5;246m<chr>[39m[23m "001387/2012", "002713/20…
+## $ garantia                   [3m[38;5;246m<chr>[39m[23m "5 anos Contra Defeito de…
+## $ observacoes                [3m[38;5;246m<chr>[39m[23m "Produto novo,Imagem mera…
+## $ profundidade_do_sulco      [3m[38;5;246m<chr>[39m[23m NA, NA, NA, NA, "7.5", NA…
+## $ tala_da_roda               [3m[38;5;246m<chr>[39m[23m NA, NA, NA, NA, "5.0", NA…
+## $ tala_possiveis_da_roda     [3m[38;5;246m<chr>[39m[23m NA, NA, NA, NA, "6", NA, …
+## $ tipo_de_montagem           [3m[38;5;246m<chr>[39m[23m NA, NA, NA, NA, NA, NA, N…
+## $ nome                       [3m[38;5;246m<list>[39m[23m "Pneu Formula by Pirelli…
+## $ resistencia_ao_rolamento   [3m[38;5;246m<list>[39m[23m "E", "E", "E", "E", "E",…
+## $ aderencia_em_pista_molhada [3m[38;5;246m<list>[39m[23m "E", "E", "F", "E", "E",…
+## $ ruido_externo              [3m[38;5;246m<list>[39m[23m "HIGH", "MEDIUM", "MEDIU…
+## $ preco_a_vista              [3m[38;5;246m<list>[39m[23m 329.9, 319.9, 349.9, 149…
+## $ preco_parcelado            [3m[38;5;246m<list>[39m[23m 374.89, 363.52, 397.61, …
 ```
 
-Analisando os dados descobrimos que existem 30 fornecedores diferentes e que alguns tem um portifolio de produtos mais variado que outros fornecedores.
+Analisando os dados descobrimos que existem 30 fornecedores diferentes e que alguns têm um portifólio de produtos mais variado que outros fornecedores.
 
 
 ```r
@@ -184,7 +219,7 @@ bases_pneus_store %>% count(marca,sort = TRUE) %>%
 
 ![](/assets/img/compra_pneus/qtd_pneus_por_marca.png)
 
-Analisando os dados descobrimos que existem 49 modelos de pneus diferentes porque as variantes servem para atender necessidades diferentes, como desempenho em terrenos distintos e consumo de conbustivel.
+Analisando os dados descobrimos que existem 49 modelos de pneus diferentes porque as variantes servem para atender necessidades diferentes, como por exemplo: desempenho em terrenos distintos e consumo de conbustível.
 
 
 ```r
@@ -198,9 +233,11 @@ bases_pneus_store %>% count(modelo,sort = TRUE) %>%
 
 ![](/assets/img/compra_pneus/qtd_pneus_por_modelo.png)
 
+## Avaliação Final
+
 ### Seleção das Principais Variáveis
 
-Avaliando qualidade dos dados descobrimos que algumas das 36 variaveis tem muitos dados faltantes:
+Avaliando qualidade dos dados descobrimos que algumas das 36 variáveis tem muitos dados faltantes:
 
 
 ```r
@@ -209,13 +246,13 @@ plot_missing(bases_pneus_store)
 
 ![](/assets/img/compra_pneus/qtd_valores_vazios.png)
 
-Avaliando maiores detalhes das variaveis com mais dados faltantes, vermelhas e roxas, entendemos que não são relevantes para o trabalho e por isso iremos desconsiderar as 6 variáveis: preco_parcelado, tala_possiveis_da_roda, talas_da_roda, fabricante, tipo_de_montagem, profundidade_do_sulco
+Avaliando estas variáveis, vermelhas e roxas, entendemos que não são relevantes para o trabalho e por isso iremos desconsiderar as 6: preco_parcelado, tala_possiveis_da_roda, talas_da_roda, fabricante, tipo_de_montagem, profundidade_do_sulco
 
-Seguindo a sugestão do INMETRO entendemos que as variavéis resistencia_ao_rolamento, aderencia_em_pista_molhada, e ruido_externo são fundamentais:
+Seguindo a sugestão do INMETRO entendemos que as variáveis resistencia_ao_rolamento, aderencia_em_pista_molhada, e ruido_externo são fundamentais:
 
-![Programa Brasileiro de Etiquetagem (PBE)](/assets/img/compra_pneus/inmetro.png)
+![Programa Brasileiro de Etiquetagem (PBE)](/assets/img/compra_pneus/INMETRO.png)
 
-Com base em em pesquisa concluimos que 10 as principais variáveis principais para compor a nota_conceitual são:
+Finalmente com base em pesquisa concluímos que 10 as principais variáveis principais para compor a nota_conceitual são:
 
 1.  **Resistência ao Rolamento (Obrigatório)**: Está diretamente relacionada à eficiência energética, uma vez que mede a energia absorvida quando o pneu está rodando. Com isso, quanto menor for a resistência ao rodar, menor será o consumo de combustível e, consequentemente, menor será o impacto ao meio ambiente (emissão de CO 2 ). Na etiqueta, os pneus serão classificados em seis níveis, sendo A o mais eficiente e até F. [Fonte](https://www.anip.org.br/etiquetagem/);
 
@@ -233,15 +270,15 @@ Com base em em pesquisa concluimos que 10 as principais variáveis principais pa
 
 8.  **Preço (Opcional):**: Visando maior econômia quanto menor melhor.;
 
-9.  **Registro Inmetro (Opcional):** Os pneus novos radiais de passeio, comerciais leves, caminhões e ônibus comercializados no mercado brasileiro, produzidos no Brasil ou importados, devem conter a etiqueta. [Fonte](https://www.anip.org.br/etiquetagem/);
+9.  **Registro INMETRO (Opcional):** Os pneus novos radiais de passeio, comerciais leves, caminhões e ônibus comercializados no mercado brasileiro, produzidos no Brasil ou importados, devem conter a etiqueta. [Fonte](https://www.anip.org.br/etiquetagem/);
 
 10. **Índice de Velocidade (Opcional)**: Para encontrar a velocidade máxima que você pode dirigir com seu pneu, você pode consultar a tabela onde encontra todos os índices e velocidades respectivas. Você encontrará uma destas letras estampada no seu pneu depois da medida. Exemplo: na medida 215/45R17 100Y, Y é a letra que designa a velocidade máxima do pneu, neste caso Y representa 300 km/h na tabela. [Fonte](https://www.pneustore.com.br/informacao-tecnica-pneus);
 
 11. **Extra Load (Opcional)**: Os pneus reforçados ou EXTRA LOAD (XL) destinam-se aos veículos pesados ou equipados com uma motorização potente. Os flancos dos pneus reforçados são mais rígidos do que os dos pneus clássicos designados por "SL" para "Standard Load". A rigidez dos flancos permite suportar uma carga, uma pressão e tensões mais elevadas. [Fonte](https://www.pneuslider.pt/pneus-reforcados).
 
-### Avaliação Final
+### Criação de Tabela com Nota Conceitual
 
-Para conseguirmos realizar a avaliação de trade-off comparando as melhores caracteristicas com o melhor preço, vamos utilizar a uma nota conceitual onde as variáveis tem pesos distintos e a nota final irá ponderar:
+Para conseguirmos realizar a avaliação de trade-off comparando as melhores características com o melhor preço, vamos utilizar a uma nota conceitual onde as variáveis tem pesos distintos e a nota final irá ponderar:
 
 
 ```r
@@ -255,7 +292,7 @@ Para conseguirmos realizar a avaliação de trade-off comparando as melhores car
              temperatura,
              treadwear,
              indice_de_peso,
-             registro_inmetro,
+             registro_INMETRO,
              indice_de_velocidade,
              preco_a_vista,
              preco_parcelado,
@@ -308,7 +345,7 @@ Para conseguirmos realizar a avaliação de trade-off comparando as melhores car
                                 indice_de_peso <= 462 ~ 1,
                                 indice_de_peso > 462 & indice_de_peso <= 475 ~ 2,
                                 TRUE ~ 3),
-    nota_registro_inmetro = case_when( is.na(registro_inmetro) ~ 0,
+    nota_registro_INMETRO = case_when( is.na(registro_INMETRO) ~ 0,
                                    TRUE ~1),
 
     nota_indice_de_velocidade = case_when(indice_de_velocidade <= 190 ~ 0,
@@ -316,59 +353,79 @@ Para conseguirmos realizar a avaliação de trade-off comparando as melhores car
     nota_extra_load = case_when(indice_de_velocidade == "SIM" ~ 1,
                                       TRUE ~ 0),
     nota_conceitual = (nota_resistencia_ao_rolamento * .7) + (nota_aderencia_em_pista_molhada * .7) + (nota_ruido_externo * .7) + (nota_tracao * .7) + (nota_temperatura * .7) + (nota_treadwear *.7) +
-      (nota_indice_de_peso * .7) + (nota_registro_inmetro * .3) + (nota_indice_de_velocidade * .3) + (nota_extra_load * .3)
+      (nota_indice_de_peso * .7) + (nota_registro_INMETRO * .3) + (nota_indice_de_velocidade * .3) + (nota_extra_load * .3)
       
     ) %>% arrange(desc(nota_conceitual))
+```
 
+```
+## Error in `select()`:
+## ! Can't subset columns that don't exist.
+## ✖ Column `registro_INMETRO` doesn't exist.
+```
+
+```r
 #Printa as 10 primeiros produtos com melhor desempenho na nota conceitual
 base_para_nota_conceitual  %>% unnest() %>% glimpse()
 ```
 
 ```
-## Rows: 23
-## Columns: 25
-## $ nome                            [3m[38;5;246m<chr>[39m[23m "Pneu Dynamo Aro 14 MH01 175/65R1…
-## $ marca                           [3m[38;5;246m<chr>[39m[23m "DYNAMO", "MICHELIN", "IRIS", "PI…
-## $ resistencia_ao_rolamento        [3m[38;5;246m<chr>[39m[23m "E", "E", "E", "C", "C", "C", "E"…
-## $ aderencia_em_pista_molhada      [3m[38;5;246m<chr>[39m[23m "C", "C", "C", "E", "E", "E", "C"…
-## $ ruido_externo                   [3m[38;5;246m<chr>[39m[23m "MEDIUM", "MEDIUM", "LOW", "MEDIU…
-## $ tracao                          [3m[38;5;246m<chr>[39m[23m "A", "A", "A", "A", "A", "A", "A"…
-## $ temperatura                     [3m[38;5;246m<chr>[39m[23m "A", "A", "A", "A", "A", "A", "B"…
-## $ treadwear                       [3m[38;5;246m<chr>[39m[23m "420", "420", "340", "420", "420"…
-## $ indice_de_peso                  [3m[38;5;246m<dbl>[39m[23m 530, 475, 530, 475, 475, 475, 475…
-## $ registro_inmetro                [3m[38;5;246m<chr>[39m[23m "001447/2021", "003263/2012", "00…
-## $ indice_de_velocidade            [3m[38;5;246m<dbl>[39m[23m 190, 210, 190, 190, 190, 190, 190…
-## $ preco_a_vista                   [3m[38;5;246m<dbl>[39m[23m 274.90, 449.90, 289.90, 359.90, 1…
-## $ preco_parcelado                 [3m[38;5;246m<dbl>[39m[23m 312.39, 511.25, 329.43, 408.98, 1…
-## $ link                            [3m[38;5;246m<chr>[39m[23m "https://www.pneustore.com.br/cat…
-## $ nota_resistencia_ao_rolamento   [3m[38;5;246m<dbl>[39m[23m 3, 3, 3, 5, 5, 5, 3, 3, 3, 3, 3, …
-## $ nota_aderencia_em_pista_molhada [3m[38;5;246m<dbl>[39m[23m 5, 5, 5, 3, 3, 3, 5, 3, 3, 3, 3, …
-## $ nota_ruido_externo              [3m[38;5;246m<dbl>[39m[23m 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-## $ nota_tracao                     [3m[38;5;246m<dbl>[39m[23m 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, …
-## $ nota_temperatura                [3m[38;5;246m<dbl>[39m[23m 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, …
-## $ nota_treadwear                  [3m[38;5;246m<dbl>[39m[23m 3, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, …
-## $ nota_indice_de_peso             [3m[38;5;246m<dbl>[39m[23m 3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, …
-## $ nota_registro_inmetro           [3m[38;5;246m<dbl>[39m[23m 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, …
-## $ nota_indice_de_velocidade       [3m[38;5;246m<dbl>[39m[23m 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, …
-## $ nota_extra_load                 [3m[38;5;246m<dbl>[39m[23m 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-## $ nota_conceitual                 [3m[38;5;246m<dbl>[39m[23m 15.0, 14.6, 14.3, 14.3, 14.3, 14.…
+## Error in unnest(.): object 'base_para_nota_conceitual' not found
 ```
 
-Com base nas caractéristicas técnicas elencadas o produto que melhor atenderia nossas necessidades é "Pneu Dynamo Aro 14 MH01 175/65R14 86T".
+### Produto Ganhador
+
+Com base nas características técnicas elencadas o produto que melhor atenderia nossas necessidades é "Pneu Dynamo Aro 14 MH01 175/65R14 86T".
+
+
+```r
+#Cria dataset dos top 20
+df <- base_para_nota_conceitual %>% distinct(nome, nota_conceitual,preco_a_vista) %>% unnest() %>% top_n(wt = nome,n = 20) 
+```
+
+```
+## Error in distinct(., nome, nota_conceitual, preco_a_vista): object 'base_para_nota_conceitual' not found
+```
+
+```r
+#Cria medida calculada da nota média dos top 20
+linha_mean <- mean(df$nota_conceitual)
+```
+
+```
+## Error in df$nota_conceitual: object of type 'closure' is not subsettable
+```
+
+```r
+#Cria gráfico mostrando o desempenho dos top 20
+ggplot(df, aes(x = reorder(nome, nota_conceitual),y = nota_conceitual))+
+  geom_col(fill="lightblue")+
+  coord_flip()+
+  theme_minimal()+
+  geom_text(aes(label=nota_conceitual))+
+  labs(x="Nome do Pneu",y="Nota Conceitual",title = "Desempenho dos Top 20")+
+  geom_hline(yintercept = linha_media, color = "orange",linetype = "dashed")+
+  annotate(geom = "text", x = 20, y = linha_mean, label = "Média da Nota Conceitual",color = "orange")+
+  scale_y_continuous(n.breaks = 15)+
+  geom_label(aes(label=scales::dollar(preco_a_vista,prefix = "R$",big.mark = ".",decimal.mark = ",")),hjust=4.5,color="blue",angle=45)+
+  annotate(geom = "label", x = 20, y = 8, label = "Preço à Vista",color = "blue")
+```
+
+![Desempenho Técnico](/assets/img/compra_pneus/desempenho_tecnico_dos_pneus.png)
 
 ### Racional da Escolha do Pagamento
 
-Nosso orçamento para compra é R$ 1.500 por isso vamos comprar 5 pneus, garantindo o pneu reserva "step", e quanto a forma de pagamento o site nos disponibiliza duas opções: Parcelar no cartão de crédito ou pagar no PIX.
+Nosso orçamento para compra é R\$ 1.500 por isso vamos comprar 5 pneus, garantindo o pneu reserva "step", e quanto a forma de pagamento o site nos disponibiliza duas opções: Parcelar no cartão de crédito ou pagar no PIX.
 
-![Forma de Pagamento Disponiveis](/assets/img/compra_pneus/forma_de_pagamento_disponiveis.png)
+![Forma de Pagamento Disponíveis](/assets/img/compra_pneus/forma_de_pagamento_disponiveis.png)
 
 Caso parcelemos no cartão de crédito podemos ter uma economia deixando o dinheiro aplicado rendendo 100% do CDI. A [Calculadora Valor Investe](https://valorinveste.globo.com/ferramentas/calculadoras/investimentos/) nos ajudará a validar os cenários.
 
-Cenário 1: Na simulação abaixo mostra o resultado que teriamos se optassemos investir e retirar após 11 meses, ou seja adiamos a compra, onde teriamos uma aumento de capital de R$ 61,76:
+**Cenário 1**: Na simulação abaixo mostra o resultado que teríamos se optássemos investir e retirar após 11 meses, ou seja adiamos a compra, onde teríamos uma aumento de capital de R\$ 61,76:
 
 ![Simulação de Investimento](/assets/img/compra_pneus/calculadora_valor_investe.png)
 
-Cenário 2: Caso optemos por parcelar em 11 vezes, conforme gráfico abaixo onde vemos o rendimento acumulado mensalmete dada ação dos juros compostos, teriamos uma economia máxima de R$ 64,30:
+**Cenário 2**: Caso optemos por parcelar em 11 vezes, conforme gráfico abaixo onde vemos o rendimento acumulado mensalmente dada ação dos juros compostos, teríamos uma economia máxima de R\$ 64,30:
 
 
 ```r
@@ -399,24 +456,30 @@ p1 + p2
 
 ![Análise Comparativa](/assets/img/compra_pneus/analise_do_investimento.png)
 
-Cenário 3: Caso optemos por realizar o pagamento no PIX teriamos uma economia de R$ 187,43 (R$ 1.561,95-R$ 1.374,52).
+**Cenário 3**: Caso optemos por realizar o pagamento no PIX teríamos uma economia de R\$ 187,43 (R\$ 1.561,95-R\$ 1.374,52).
 
-O cenário 3 foi o ganhador, e realizamos o pagamento via PIX.
+Tabela comparativa de economia em relação ao valor R\$ 1.561,95:
 
+| Cenário 1 | Cenário 2 | Cenário 3 |
+|-----------|-----------|-----------|
+| 3,95%     | 4,12%     | 12%       |
+
+O **cenário 3** foi o ganhador, pagamento via PIX, e este percentual triplica quando comparamos com o preço oferecido pelas lojas físicas nos comércios locais.
 
 # Considerações Finais
 
-Este trabalho trouxe beneficios como maior confiança na tomada de decição e economia financeira, além de ter sido muito divertido, por isso estou satisfeito com a compra e inclusive os pneus já chegaram em casa:
+Este trabalho trouxe benefícios como maior confiança na tomada de decisão e economia financeira, além de ter sido muito divertido, por isso estou satisfeito com a compra e inclusive os pneus já chegaram em casa:
 
 ![Imagem dos Pneus que chegaram em Casa](/assets/img/compra_pneus/pneus_chegaram.jpg)
 
-Sobre a parte financeira escolhemos pagar à vista porque se fossemos parcelar em 11 vezes o preço sairia mais caro, o que não seria compensado deixando num investimento rendendo 100% o CDI, e pagando por meio de PIX conseguimos um cupom de desconto. Com isso conseguimos o preço unitário final de R$ 200 trazendo um saving de 60% em relação ao encontrado se não tivessemos realizado o estudo.
-
-
-**Premissas**: Este trabalho foi realizado com a linguagem R, IDE Rstudio, com Quarto, e sistema operacional Linux Mint. Foram utilizados conhecimentos de data science e metodologias ágeis. Seguindo as boas práticas do mercado demos preferencia para bibliotecas do tidyverse.
+**Premissas**: Este trabalho foi realizado com a linguagem R, IDE Rstudio, com Quarto, e sistema operacional Linux Mint. Foram utilizados conhecimentos de data science e metodologias ágeis. Seguindo as boas práticas do mercado demos preferência para bibliotecas do tidyverse.
 
 ![Metodologias Agéis](https://tse1.mm.bing.net/th?id=OIP.YQHMHRrHb3almjchEGIknQHaE8)
 
 # Observações
 
-Este artigo tem finalidade de estudo empirico pessoal e não é recomendação de compra e/ou venda, caso tenha alguma dúvida técnica procure um mecânico de sua confiança. Um ponto importante em se destacar é que os preços e disponibiidade de estoque estão sujeitos à mudança dinâmica do mercado varejista, e que as especificações técnicas também podem sofrer alterações conforme novos decretos da agência regulamentadora.
+Tanto o script completo quanto a base de dados consolidada estão disponíveis no meu [Repositório do GitHub](https://github.com/RoldanRamon/Compra-de-Pneus).
+
+Este artigo tem finalidade de estudo empírico pessoal e não é recomendação de compra e/ou venda, caso tenha alguma dúvida técnica procure um mecânico de sua confiança.
+
+Um ponto importante em se destacar é que os preços e disponibilidade de estoque estão sujeitos à mudança dinâmica do mercado varejista, e que as especificações técnicas também podem sofrer alterações conforme novos decretos da agência regulamentadora.
