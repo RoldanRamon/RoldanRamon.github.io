@@ -5,7 +5,6 @@ date: "2023-02-19"
 categories: [Data Science, Tydeverse, Web Scrapping]
 tags: [Tydeverse, Web Scrapping, Analitycs, Dashboard, Data Science, ETL, Git, GitHub, R, Linux, GGPLOT]
 ---
-
 ## Principal Objetivo
 
 Este estudo busca utilizar técnicas de Data Science juntamente com strategic sourcing e metodologias ágeis para sugerir a melhor opção de compra de pneus conforme opções do mercado varejista online.
@@ -67,8 +66,6 @@ ggplot(dados, aes(x = inicio, y = tarefa, xend = fim, yend = tarefa, color = tar
   theme(axis.text.x = element_text(angle = 45))+
   labs(title = "Cronograma do Projeto", x = "", y = "", fill = "",subtitle = paste("Duração Total:",sum(as.numeric(dados$fim - dados$inicio)),"Dias"))
 ```
-
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-1.png)
 
 ![Imagem do Repositório](/assets/img/compra_pneus/cronograma_do_projeto.png)
 
@@ -219,8 +216,6 @@ bases_pneus_store %>% count(marca,sort = TRUE) %>%
   labs(title = "Quantidade de Pneus por Marca",y="",x="")
 ```
 
-![plot of chunk r](figure/r-1.png)
-
 ![](/assets/img/compra_pneus/qtd_pneus_por_marca.png)
 
 Analisando os dados descobrimos que existem 49 modelos de pneus diferentes porque as variantes servem para atender necessidades diferentes, como por exemplo: desempenho em terrenos distintos e consumo de conbustível.
@@ -235,8 +230,6 @@ bases_pneus_store %>% count(modelo,sort = TRUE) %>%
   labs(title = "Quantidade de Pneus por Modelo",y="",x="")
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
-
 ![](/assets/img/compra_pneus/qtd_pneus_por_modelo.png)
 
 ## Avaliação Final
@@ -249,8 +242,6 @@ Avaliando qualidade dos dados descobrimos que algumas das 36 variáveis tem muit
 ```r
 plot_missing(bases_pneus_store)
 ```
-
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
 
 ![](/assets/img/compra_pneus/qtd_valores_vazios.png)
 
@@ -416,15 +407,11 @@ ggplot(df, aes(x = reorder(nome, nota_conceitual),y = nota_conceitual))+
   theme_minimal()+
   geom_text(aes(label=nota_conceitual))+
   labs(x="Nome do Pneu",y="Nota Conceitual",title = "Desempenho dos Top 20")+
-  geom_hline(yintercept = linha_media, color = "orange",linetype = "dashed")+
+  geom_hline(yintercept = linha_mean, color = "orange",linetype = "dashed")+
   annotate(geom = "text", x = 20, y = linha_mean, label = "Média da Nota Conceitual",color = "orange")+
   scale_y_continuous(n.breaks = 15)+
   geom_label(aes(label=scales::dollar(preco_a_vista,prefix = "R$",big.mark = ".",decimal.mark = ",")),hjust=4.5,color="blue",angle=45)+
   annotate(geom = "label", x = 20, y = 8, label = "Preço à Vista",color = "blue")
-```
-
-```
-## Error in list2(...): object 'linha_media' not found
 ```
 
 ![Desempenho Técnico](/assets/img/compra_pneus/desempenho_tecnico_dos_pneus.png)
@@ -469,8 +456,6 @@ p2 <- ggplot(data = df,aes(x=Month,y=Saving)) +
 #Gráfico final comparativo
 p1 + p2
 ```
-
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png)
 
 ![Análise Comparativa](/assets/img/compra_pneus/analise_do_investimento.png)
 
