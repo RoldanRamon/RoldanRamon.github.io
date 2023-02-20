@@ -20,10 +20,10 @@ timezone: America/Sao_Paulo
 
 title: Ramon Roldan                          # the main title
 
-tagline: I have + 4 years of experience with data science, working daily with R, SQL, Excel, VBA, Power BI, Tableau and Python. Are part of my daily life practical activities a such as automated data collection (SQL and Web Scrapping), data preparation and analysis (Tidyverse / Pandas / DAX), professional visualizations with web applications and dashboards (BI / R / Tableau), statistical modeling and develop models machine learning (Tidymodels). With my experience in procurement, lean six sigma certification and using design thinking, my goal is bring innovative solutions to improve the customer experience..   # it will display as the sub-title
+tagline: Passionate about data and technology. +4 yrs of experience with R, SQL, Python, Power BI and Tableau. Background in sourcing strategy and project management.   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-I have + 4 years of experience with data science, working daily with R, SQL, Excel, VBA, Power BI, Tableau and Python. Are part of my daily life practical activities a such as automated data collection (SQL and Web Scrapping), data preparation and analysis (Tidyverse / Pandas / DAX), professional visualizations with web applications and dashboards (BI / R / Tableau), statistical modeling and develop models machine learning (Tidymodels). With my experience in procurement, lean six sigma certification and using design thinking, my goal is bring innovative solutions to improve the customer experience.
+Passionate about data and technology. +4 yrs of experience with R, SQL, Python, Power BI and Tableau. Background in sourcing strategy and project management.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: 'https://roldanramon.github.io'
