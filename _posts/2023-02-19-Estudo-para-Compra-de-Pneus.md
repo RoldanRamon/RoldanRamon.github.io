@@ -5,7 +5,6 @@ date: "2023-02-19"
 categories: [Data Science, Tydeverse, Web Scrapping]
 tags: [Tydeverse, Web Scrapping, Analitycs, Dashboard, Data Science, ETL, Git, GitHub, R, Linux, GGPLOT]
 ---
-
 ## Principal Objetivo
 
 Este estudo busca utilizar técnicas de Data Science juntamente com strategic sourcing e metodologias ágeis para sugerir a melhor opção de compra de pneus conforme opções do mercado varejista online.
