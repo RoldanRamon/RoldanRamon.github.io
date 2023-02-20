@@ -5,6 +5,7 @@ date: "2023-02-19"
 categories: [Data Science, Tydeverse, Web Scrapping]
 tags: [Tydeverse, Web Scrapping, Analitycs, Dashboard, Data Science, ETL, Git, GitHub, R, Linux, GGPLOT]
 ---
+
 ## Principal Objetivo
 
 Este estudo busca utilizar técnicas de Data Science juntamente com strategic sourcing e metodologias ágeis para sugerir a melhor opção de compra de pneus conforme opções do mercado varejista online.
@@ -50,31 +51,13 @@ dados <- tibble(
   inicio = as.Date(c("2023-01-28", "2023-01-29", "2023-01-31","2023-02-06","2023-02-12","2023-02-14")),
   fim = as.Date(c("2023-01-29", "2023-01-30", "2023-02-05","2023-02-12","2023-02-14","2023-02-19"))
 ) %>% mutate(tarefa = fct_inorder(tarefa))
-```
 
-```
-## Error in tibble(tarefa = c("Definição do principal objetivo a ser alcançado", : could not find function "%>%"
-```
-
-```r
 # Calcular a diferença de tempo em dias
 dados$duracao <- as.numeric(dados$fim - dados$inicio)
-```
 
-```
-## Error in eval(expr, envir, enclos): object 'dados' not found
-```
-
-```r
 # Converter a coluna de difftime em um formato de data
 dados$inicio <- as.Date(dados$inicio)
-```
 
-```
-## Error in as.Date(dados$inicio): object 'dados' not found
-```
-
-```r
 # Criar o gráfico de Gantt com o ggplot
 ggplot(dados, aes(x = inicio, y = tarefa, xend = fim, yend = tarefa, color = tarefa)) +
   geom_segment(size = 10,show.legend = FALSE) +
@@ -84,6 +67,8 @@ ggplot(dados, aes(x = inicio, y = tarefa, xend = fim, yend = tarefa, color = tar
   theme(axis.text.x = element_text(angle = 45))+
   labs(title = "Cronograma do Projeto", x = "", y = "", fill = "",subtitle = paste("Duração Total:",sum(as.numeric(dados$fim - dados$inicio)),"Dias"))
 ```
+
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-1.png)
 
 ![Imagem do Repositório](/assets/img/compra_pneus/cronograma_do_projeto.png)
 
@@ -234,6 +219,8 @@ bases_pneus_store %>% count(marca,sort = TRUE) %>%
   labs(title = "Quantidade de Pneus por Marca",y="",x="")
 ```
 
+![plot of chunk r](figure/r-1.png)
+
 ![](/assets/img/compra_pneus/qtd_pneus_por_marca.png)
 
 Analisando os dados descobrimos que existem 49 modelos de pneus diferentes porque as variantes servem para atender necessidades diferentes, como por exemplo: desempenho em terrenos distintos e consumo de conbustível.
@@ -248,6 +235,8 @@ bases_pneus_store %>% count(modelo,sort = TRUE) %>%
   labs(title = "Quantidade de Pneus por Modelo",y="",x="")
 ```
 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
+
 ![](/assets/img/compra_pneus/qtd_pneus_por_modelo.png)
 
 ## Avaliação Final
@@ -260,6 +249,8 @@ Avaliando qualidade dos dados descobrimos que algumas das 36 variáveis tem muit
 ```r
 plot_missing(bases_pneus_store)
 ```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
 
 ![](/assets/img/compra_pneus/qtd_valores_vazios.png)
 
@@ -478,6 +469,8 @@ p2 <- ggplot(data = df,aes(x=Month,y=Saving)) +
 #Gráfico final comparativo
 p1 + p2
 ```
+
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png)
 
 ![Análise Comparativa](/assets/img/compra_pneus/analise_do_investimento.png)
 
