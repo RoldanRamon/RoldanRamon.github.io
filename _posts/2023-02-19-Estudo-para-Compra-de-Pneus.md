@@ -38,8 +38,12 @@ Utilizamos o gráfico de Gantt para elaborar um cronograma de projeto, para orga
 Observação: Vale a pena destacar que trabalhei conforme disponibilidade diária após o expediente de trabalho, usando apróximadamente duas horas em cada dia.
 
 
+
 ```r
-# Criar um conjunto de dados fictício
+#Utilizaremos a biblioteca tidyverse para o tratamento, manipulação e vizualização de dados.
+library(tidyverse)
+
+# Criaremos um dataset com as principais atividades
 dados <- tibble(
   tarefa = c("Definição do principal objetivo a ser alcançado",
              "Versionar Projeto no GitHub, Criar Kanban, e Cronograma de Gantt",
@@ -49,13 +53,8 @@ dados <- tibble(
              "Estruturar Informações no Artigo"),
   inicio = as.Date(c("2023-01-28", "2023-01-29", "2023-01-31","2023-02-06","2023-02-12","2023-02-14")),
   fim = as.Date(c("2023-01-29", "2023-01-30", "2023-02-05","2023-02-12","2023-02-14","2023-02-19"))
-) %>% mutate(tarefa = fct_inorder(tarefa))
-
-# Calcular a diferença de tempo em dias
-dados$duracao <- as.numeric(dados$fim - dados$inicio)
-
-# Converter a coluna de difftime em um formato de data
-dados$inicio <- as.Date(dados$inicio)
+) %>% mutate(tarefa = fct_inorder(tarefa),
+             duracao = as.numeric(fim - inicio))
 
 # Criar o gráfico de Gantt com o ggplot
 ggplot(dados, aes(x = inicio, y = tarefa, xend = fim, yend = tarefa, color = tarefa)) +
@@ -64,7 +63,7 @@ ggplot(dados, aes(x = inicio, y = tarefa, xend = fim, yend = tarefa, color = tar
   scale_x_date(date_labels = "%d/%m/%Y",date_breaks = "3 days", limits = c(min(dados$inicio),max(dados$fim))) +
   geom_text(aes(x = inicio + duracao/2, y = tarefa, label = paste0(duracao, " dias")),color="white")+
   theme(axis.text.x = element_text(angle = 45))+
-  labs(title = "Cronograma do Projeto", x = "", y = "", fill = "",subtitle = paste("Duração Total:",sum(as.numeric(dados$fim - dados$inicio)),"Dias"))
+  labs(title = "Cronograma do Projeto", x = "", y = "", fill = "",subtitle = paste("Duração Total:",sum(as.numeric(dados$fim - dados$inicio)),"Dias"),caption = "Observação: 2 horas de trabalho por dia")
 ```
 
 ![Imagem do Repositório](/assets/img/compra_pneus/cronograma_do_projeto.png)
@@ -89,7 +88,7 @@ O Instituto Nacional de Metrologia, Qualidade e Tecnologia [INMETRO](https://dad
 
 Neste trabalho utilizaremos os dados abertos do Programa Brasileiro de Etiquetagem (PBE), disponibilizados pelo governo federal, para auxiliar na escolha pautada em dados:
 
-![Imagem da Etiqueta](/assets/img/compra_pneus/pneu.png)
+![Programa Brasileiro de Etiquetagem (PBE)](/assets/img/compra_pneus/inmetro.png)
 
 Este [Video](https://www.youtube.com/watch?v=867SbL5RulU) didatico explica com maior riqueza de detalhes o significado dos códigos da etiqueta e como podemos interpreta-as para ajudar no esclarecimento.
 
@@ -101,7 +100,23 @@ Este site é referência de mercado por apresentar detalhes técnicos dos produt
 
 Vale a pena destacar que tive indicações tanto de alguns profissionais da área, mecânicos, quanto de amigos meus, consumidores finais, que compram e ainda não tiveram problema.
 
-No [video](https://www.youtube.com/watch?v=QIWJH8xKxcM) tem todo um estudo detalhado sobre confiabilidade do site.
+No [video](https://www.youtube.com/watch?v=QIWJH8xKxcM) tem todo um estudo detalhado sobre confiabilidade do site que apresenta que reforça a robustez da empresa.
+
+É avaliado principalmente:
+
+-   O endereço físico do sede da empresa que mostra a existência real da empresa, e também que ela trabalho com a modalidade de estoque;
+
+-   Detalhes sobre a holding, Grupo Level, que mostra a quantidade e distribuição das filiais;
+
+-   Situação cadastral de débitos com fornecedores e também com o governo federal;
+
+-   Nota e avaliações no reclameaqui;
+
+-   Certificações contra vazamento de dados;
+
+-   Volume do "trafego" para entender a quantidade de pessoas que compram diariamente;
+
+-   Parceiro comercial que realiza transporte.
 
 ![Imagem do site Pneu Store](/assets/img/compra_pneus/print_pneustore.png)
 
@@ -167,54 +182,44 @@ bases_pneus_store %>% glimpse()
 ## Rows: 69
 ## Columns: 36
 ## $ link                       <chr> "https://www.pneustore.c…
-## $ marca                      <chr> "CONTINENTAL", "KUMHO", …
-## $ modelo                     <chr> "CONTIPOWERCONTACT", "SE…
+## $ marca                      <chr> "PIRELLI", "FORMULA", "F…
+## $ modelo                     <chr> "CINTURATO P1", "FORMULA…
 ## $ medida                     <chr> "175/65R14", "175/65R14"…
 ## $ largura                    <chr> "175mm", "175mm", "175mm…
 ## $ perfil                     <chr> "65%", "65%", "65%", "65…
 ## $ aro                        <chr> "14", "14", "14", "14", …
 ## $ diametro_total_em_mm       <chr> "583.1", "583.1", "583.1…
 ## $ indice_de_peso             <dbl> 475, 475, 475, 475, 475,…
-## $ indice_de_velocidade       <dbl> 190, 210, 190, 190, 190,…
+## $ indice_de_velocidade       <dbl> 190, 190, 190, 190, 190,…
 ## $ rft_run_flat               <chr> "NÃO", "NÃO", "NÃO", "NÃ…
 ## $ tipo_de_construcao         <chr> "RADIAL", "RADIAL", "RAD…
-## $ peso                       <chr> "6.795", "6.93", "6.572"…
+## $ peso                       <chr> "6.78", "6.572", "6.351"…
 ## $ extra_load                 <chr> "NÃO", "NÃO", "NÃO", "NÃ…
 ## $ protetor_de_bordas         <chr> "NÃO", "NÃO", "NÃO", "NÃ…
 ## $ sidewall                   <chr> "BSW LETRAS PRETAS", "BS…
 ## $ tipo_de_terreno            <chr> "HT", "HT", "HT", "HT", …
-## $ desenho                    <chr> "Assimétrico", "Simétric…
-## $ tala_da_roda               <chr> "5", "5.0", NA, NA, NA, …
-## $ tala_possiveis_da_roda     <chr> "5-6", "6", NA, NA, NA, …
-## $ utqg                       <chr> "480AB", "460AB", "180AB…
-## $ treadwear                  <chr> "480", "460", "180", "44…
-## $ tracao                     <chr> "A", "A", "A", "B", "B",…
-## $ temperatura                <chr> "B", "B", "B", "B", "B",…
-## $ registro_inmetro           <chr> "001152/2015", NA, "0013…
+## $ desenho                    <chr> "Assimétrico", "Assimétr…
+## $ tala_da_roda               <chr> "5", NA, NA, NA, NA, "5.…
+## $ tala_possiveis_da_roda     <chr> "5-6", NA, NA, NA, NA, "…
+## $ utqg                       <chr> "420AA", "180AB", "200BB…
+## $ treadwear                  <chr> "420", "180", "200", "44…
+## $ tracao                     <chr> "A", "A", "B", "B", "A",…
+## $ temperatura                <chr> "A", "B", "B", "B", "A",…
+## $ registro_inmetro           <chr> "001387/2012", "001387/2…
 ## $ garantia                   <chr> "5 anos Contra Defeito d…
 ## $ observacoes                <chr> "Produto novo,Imagem mer…
-## $ profundidade_do_sulco      <chr> NA, "7.5", NA, NA, NA, N…
-## $ fabricante                 <chr> NA, NA, "PIRELLI", "GOOD…
-## $ tipo_de_montagem           <chr> NA, NA, NA, NA, NA, NA, …
-## $ nome                       <list> "Pneu Continental Aro 1…
-## $ resistencia_ao_rolamento   <list> "E", "E", "E", "E", "E"…
-## $ aderencia_em_pista_molhada <list> "C", "E", "E", "F", "E"…
-## $ ruido_externo              <list> "MEDIUM", "HIGH", "HIGH…
-## $ preco_a_vista              <list> 394.9, 339.9, 1495.61, …
-## $ preco_parcelado            <list> 11, 386.25, 1699.56, 16…
+## $ fabricante                 <chr> NA, "PIRELLI", "BRIDGEST…
+## $ tipo_de_montagem           <chr> NA, NA, NA, NA, "SEM CÂM…
+## $ profundidade_do_sulco      <chr> NA, NA, NA, NA, NA, "7.5…
+## $ nome                       <list> "Pneu Pirelli Aro 14 Ci…
+## $ resistencia_ao_rolamento   <list> "C", "E", "E", "E", "F"…
+## $ aderencia_em_pista_molhada <list> "E", "E", "E", "F", "E"…
+## $ ruido_externo              <list> "MEDIUM", "HIGH", "MEDI…
+## $ preco_a_vista              <list> 359.9, 329.9, 319.9, 34…
+## $ preco_parcelado            <list> 408.98, 374.89, 363.52,…
 ```
 
 Analisando os dados descobrimos que existem 30 fornecedores diferentes e que alguns têm um portifólio de produtos mais variado que outros fornecedores.
-
-
-```r
-bases_pneus_store %>% count(marca,sort = TRUE) %>% 
-  ggplot(aes(x=reorder(marca,n),y=n))+
-  geom_col(fill="lightblue")+
-  coord_flip()+
-  geom_text(aes(label=n))+
-  labs(title = "Quantidade de Pneus por Marca",y="",x="")
-```
 
 ![](/assets/img/compra_pneus/qtd_pneus_por_marca.png)
 
@@ -249,7 +254,7 @@ Avaliando estas variáveis, vermelhas e roxas, entendemos que não são relevant
 
 Seguindo a sugestão do INMETRO entendemos que as variáveis resistencia_ao_rolamento, aderencia_em_pista_molhada, e ruido_externo são fundamentais:
 
-![Programa Brasileiro de Etiquetagem (PBE)](/assets/img/compra_pneus/inmetro.png)
+![Imagem da Etiqueta](/assets/img/compra_pneus/pneu.png)
 
 Finalmente com base em pesquisa concluímos que 10 as principais variáveis principais para compor a nota_conceitual são:
 
@@ -267,7 +272,7 @@ Finalmente com base em pesquisa concluímos que 10 as principais variáveis prin
 
 7.  **Índice de peso (Obrigatório)**: Para saber o peso máximo o seu pneu suporta, você também pode conferir na tabela de índices de carga. Você encontrará um destes números estampados no seu pneu depois da medida. Exemplo: na medida 205/70R16 112S, 112 é o número que designa o peso máximo por pneu, neste caso 112 representa 1120kg. [Fonte](https://www.pneustore.com.br/informacao-tecnica-pneus);
 
-8.  **Preço (Opcional):**: Visando maior econômia quanto menor melhor.;
+8.  **Preço (Opcional):** Visando maior econômia quanto menor melhor.;
 
 9.  **Registro INMETRO (Opcional):** Os pneus novos radiais de passeio, comerciais leves, caminhões e ônibus comercializados no mercado brasileiro, produzidos no Brasil ou importados, devem conter a etiqueta. [Fonte](https://www.anip.org.br/etiquetagem/);
 
@@ -277,10 +282,21 @@ Finalmente com base em pesquisa concluímos que 10 as principais variáveis prin
 
 ### Criação de Tabela com Nota Conceitual
 
-Para conseguirmos realizar a avaliação de trade-off comparando as melhores características com o melhor preço, vamos utilizar a uma nota conceitual onde as variáveis tem pesos distintos e a nota final irá ponderar:
+Para conseguirmos realizar a avaliação de trade-off comparando as melhores características com o melhor preço, vamos utilizar a uma nota conceitual onde as variáveis tem pesos distintos e a nota final irá ponderar quais produtos tem melhor desempenho.
+
+No calculo ponderado utilizaremos 10 variáveis, onde as obrigatórias terão um peso ponderado de 70% e as opcionais terão um peso de 30%.
+
+Dentro das obrigátorias consideramos que "**nota_resistencia_ao_rolamento**", "**nota_aderencia_em_pista_molhada**", "**nota_ruido_externo**" tem uma importância maior por serem as três principais avalidas pelo INMETRO.
+
+As demais notas obrigátorias "**nota_tracao**", "**nota_temperatura**", "**nota_treadwear**", "**nota_indice_de_peso"** são atributos muito importantes para a durabilidade do produto.
+
+Um ponto importante é que a "**nota_indice_de_peso"** consideramos como nota zero caso os pneus não suportem o peso total do carro, dessa forma desclassifica produtos que não suportem o peso mínimo do veículo, conforme informações disponíveis no manual do fabricante.
+
+As varivárieis "**nota_registro_inmetro**", "**nota_indice_de_velocidade**", "**nota_extra_load**" foram consideradas opcionais porque caso se enquadrem nas condições são um "benefício plus" frente aos demais produtos concorrentes.
 
 
 ```r
+#Cria dataset da nota conceitual e organiza os produtos conforme melhor desempenho
   base_para_nota_conceitual<- bases_pneus_store %>% 
       select(nome,
              marca,
@@ -297,6 +313,7 @@ Para conseguirmos realizar a avaliação de trade-off comparando as melhores car
              preco_parcelado,
              link) %>% 
     mutate(
+      #Resistência ao Rolamento (Obrigatório)
       nota_resistencia_ao_rolamento = case_when(
       resistencia_ao_rolamento == "A" ~ 7,
       resistencia_ao_rolamento == "B" ~ 6,
@@ -305,7 +322,7 @@ Para conseguirmos realizar a avaliação de trade-off comparando as melhores car
       resistencia_ao_rolamento == "E" ~ 3,
       resistencia_ao_rolamento == "F" ~ 2,
       TRUE ~ 1),
-      
+      #Aderência em Pista Molhada (Obrigatório)
       nota_aderencia_em_pista_molhada = case_when(
       aderencia_em_pista_molhada == "A" ~ 7,
       aderencia_em_pista_molhada == "B" ~ 6,
@@ -314,7 +331,7 @@ Para conseguirmos realizar a avaliação de trade-off comparando as melhores car
       aderencia_em_pista_molhada == "E" ~ 3,
       aderencia_em_pista_molhada == "F" ~ 2,
       TRUE ~ 1),
-      
+      #Ruído Externo (Obrigatório)
       nota_ruido_externo = case_when(
       ruido_externo == "A" ~ 7,
       ruido_externo == "B" ~ 6,
@@ -323,45 +340,48 @@ Para conseguirmos realizar a avaliação de trade-off comparando as melhores car
       ruido_externo == "E" ~ 3,
       ruido_externo == "F" ~ 2,
       TRUE ~ 1),
-      
+      #Tração (Obrigatório)
       nota_tracao = case_when(
       tracao == "AA" ~ 4,
       tracao == "A" ~ 3,
       tracao == "B" ~ 2,
       TRUE ~ 1),
-      
-    nota_temperatura = case_when(
+      #Temperatura (Obrigatório)
+      nota_temperatura = case_when(
       temperatura == "A" ~ 3,
       temperatura == "B" ~ 2,
       TRUE ~ 1),
-
-    nota_treadwear = case_when(
+      #Treadwear (Obrigatório)
+      nota_treadwear = case_when(
       treadwear >= 60 & treadwear <= 200 ~ 1,
       treadwear >= 201 & treadwear <= 400 ~ 2,
       TRUE ~ 3),
-
-    nota_indice_de_peso = case_when((indice_de_peso*4) <1007 ~ 0,
+      #Índice de peso (Obrigatório)
+      nota_indice_de_peso = case_when((indice_de_peso*4) <1007 ~ 0,
                                 indice_de_peso <= 462 ~ 1,
                                 indice_de_peso > 462 & indice_de_peso <= 475 ~ 2,
                                 TRUE ~ 3),
-    nota_registro_inmetro = case_when( is.na(registro_inmetro) ~ 0,
+      #Registro INMETRO (Opcional)
+      nota_registro_inmetro = case_when( is.na(registro_inmetro) ~ 0,
                                    TRUE ~1),
-
-    nota_indice_de_velocidade = case_when(indice_de_velocidade <= 190 ~ 0,
+      #Índice de Velocidade (Opcional)
+      nota_indice_de_velocidade = case_when(indice_de_velocidade <= 190 ~ 0,
                                       TRUE ~ 1),
-    nota_extra_load = case_when(indice_de_velocidade == "SIM" ~ 1,
+      #Extra Load (Opcional)
+      nota_extra_load = case_when(indice_de_velocidade == "SIM" ~ 1,
                                       TRUE ~ 0),
+      
     nota_conceitual = (nota_resistencia_ao_rolamento * .7) + (nota_aderencia_em_pista_molhada * .7) + (nota_ruido_externo * .7) + (nota_tracao * .7) + (nota_temperatura * .7) + (nota_treadwear *.7) +
       (nota_indice_de_peso * .7) + (nota_registro_inmetro * .3) + (nota_indice_de_velocidade * .3) + (nota_extra_load * .3)
       
     ) %>% arrange(desc(nota_conceitual))
 
-#Printa as 10 primeiros produtos com melhor desempenho na nota conceitual
-base_para_nota_conceitual  %>% unnest() %>% glimpse()
+  #Printa os primeiros produtos com melhor desempenho na nota conceitual
+  base_para_nota_conceitual  %>% unnest() %>% glimpse()
 ```
 
 ```
-## Rows: 24
+## Rows: 23
 ## Columns: 25
 ## $ nome                            <chr> "Pneu Ceat Aro 14 E…
 ## $ marca                           <chr> "CEAT", "DYNAMO", "…
@@ -381,9 +401,9 @@ base_para_nota_conceitual  %>% unnest() %>% glimpse()
 ## $ nota_aderencia_em_pista_molhada <dbl> 6, 5, 5, 3, 3, 3, 5…
 ## $ nota_ruido_externo              <dbl> 1, 1, 1, 1, 1, 1, 1…
 ## $ nota_tracao                     <dbl> 2, 3, 3, 3, 3, 3, 3…
-## $ nota_temperatura                <dbl> 3, 3, 3, 3, 3, 3, 3…
-## $ nota_treadwear                  <dbl> 3, 3, 3, 3, 3, 3, 2…
-## $ nota_indice_de_peso             <dbl> 2, 3, 2, 2, 2, 2, 3…
+## $ nota_temperatura                <dbl> 3, 3, 3, 3, 3, 3, 2…
+## $ nota_treadwear                  <dbl> 3, 3, 3, 3, 3, 3, 3…
+## $ nota_indice_de_peso             <dbl> 2, 3, 2, 2, 2, 2, 2…
 ## $ nota_registro_inmetro           <dbl> 1, 1, 1, 1, 1, 1, 1…
 ## $ nota_indice_de_velocidade       <dbl> 0, 0, 1, 0, 0, 0, 0…
 ## $ nota_extra_load                 <dbl> 0, 0, 0, 0, 0, 0, 0…
@@ -392,7 +412,7 @@ base_para_nota_conceitual  %>% unnest() %>% glimpse()
 
 ### Produto Ganhador
 
-Com base nas características técnicas elencadas o produto que melhor atenderia nossas necessidades é "Pneu Dynamo Aro 14 MH01 175/65R14 86T".
+Com base nas características técnicas elencadas o produto que melhor atenderia nossas necessidades é "**Pneu Dynamo Aro 14 MH01 175/65R14 86T**".
 
 
 ```r
@@ -475,7 +495,8 @@ Este trabalho trouxe benefícios como maior confiança na tomada de decisão e e
 
 ![Imagem dos Pneus que chegaram em Casa](/assets/img/compra_pneus/pneus_chegaram.jpg)
 
-**Premissas**: Este trabalho foi realizado com a linguagem R, IDE Rstudio, com Quarto, e sistema operacional Linux Mint. Foram utilizados conhecimentos de data science e metodologias ágeis. Seguindo as boas práticas do mercado demos preferência para bibliotecas do tidyverse.
+**Premissas**: Este trabalho foi realizado com a linguagem R, IDE Rstudio, com Quarto, e sistema operacional Linux Mint.\
+Foram utilizados conhecimentos de data science e metodologias ágeis. Seguindo as boas práticas do mercado demos preferência para bibliotecas do tidyverse.
 
 ![Metodologias Agéis](https://tse1.mm.bing.net/th?id=OIP.YQHMHRrHb3almjchEGIknQHaE8)
 
@@ -483,6 +504,14 @@ Este trabalho trouxe benefícios como maior confiança na tomada de decisão e e
 
 Tanto o script completo quanto a base de dados consolidada estão disponíveis no meu [Repositório do GitHub](https://github.com/RoldanRamon/Compra-de-Pneus).
 
-Este artigo tem finalidade de estudo empírico pessoal e não é recomendação de compra e/ou venda, caso tenha alguma dúvida técnica procure um mecânico de sua confiança.
+Este artigo tem finalidade de estudo pessoal e não é recomendação de compra e/ou venda, caso tenha alguma dúvida técnica procure um mecânico de sua confiança.
 
-Um ponto importante em se destacar é que os preços e disponibilidade de estoque estão sujeitos à mudança dinâmica do mercado varejista, e que as especificações técnicas também podem sofrer alterações conforme novos decretos da agência regulamentadora.
+Pontos importantes em se destacar:
+
+-   Os preços e disponibilidade de estoque estão sujeitos à mudança dinâmica do mercado varejista;
+
+-   As especificações técnicas também podem sofrer alterações conforme novos decretos da agência regulamentadora;
+
+-   O script para raspagem de dados foi criado considerando a estrutura atual da página pneus store, e mudanças estruturais no código fonte da página podem causar interferências no funcionamento.
+
+-   Como sugestão cabe lembrar que para raspagem de dados sempre verifique as clausulas de LGPD.
