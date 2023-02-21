@@ -508,9 +508,7 @@ Foram utilizados conhecimentos de data science e metodologias ágeis. Seguindo a
 
 # Observações
 
-Tanto o script completo quanto a base de dados consolidada estão disponíveis no meu [Repositório do GitHub](https://github.com/RoldanRamon/Compra-de-Pneus).
-
-Pontos importantes em se destacar:
+-   Tanto o script completo quanto a base de dados consolidada estão disponíveis no meu [Repositório do GitHub](https://github.com/RoldanRamon/Compra-de-Pneus).
 
 -   Este artigo tem finalidade de estudo pessoal e não é recomendação de compra e/ou venda, caso tenha alguma dúvida técnica procure um mecânico de sua confiança.
 
