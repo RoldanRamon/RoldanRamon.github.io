@@ -290,7 +290,7 @@ Dentro das obrigátorias consideramos que "**nota_resistencia_ao_rolamento**", "
 
 As demais notas obrigátorias "**nota_tracao**", "**nota_temperatura**", "**nota_treadwear**", "**nota_indice_de_peso"** são atributos muito importantes para a durabilidade do produto.
 
-Um ponto importante é que a "**nota_indice_de_peso"** consideramos como nota zero caso os pneus não suportem o peso total do carro, dessa forma desclassifica produtos que não suportem o peso mínimo do veículo, conforme informações disponíveis no manual do fabricante.
+Um ponto importante é que a "**nota_indice_de_peso"** consideramos como nota zero caso os pneus não suportem o peso total do carro, dessa forma desclassifica produtos que não suportem o peso mínimo do veículo, conforme informações disponíveis no [manual do fabricante](https://www.fordservicecontent.com/Ford_Content/vdirsnet/OwnerManual/Home/Index?Variantid=4344&languageCode=PT&countryCode=BRA&marketCode=BR&bookcode=O35103&VIN=&userMarket=BRA&div=f&buildtype=web).
 
 As varivárieis "**nota_registro_inmetro**", "**nota_indice_de_velocidade**", "**nota_extra_load**" foram consideradas opcionais porque caso se enquadrem nas condições são um "benefício plus" frente aos demais produtos concorrentes.
 
@@ -491,7 +491,9 @@ O **cenário 3** foi o ganhador, pagamento via PIX, e este percentual triplica q
 
 # Considerações Finais
 
-Este trabalho trouxe benefícios como maior confiança na tomada de decisão e economia financeira, além de ter sido muito divertido, por isso estou satisfeito com a compra e inclusive os pneus já chegaram em casa:
+Este trabalho trouxe benefícios como maior confiança na tomada de decisão e economia financeira, além de ter sido muito divertido, e uma das coisas mais interessantes foi que o produto ganhador não foi o mais caro e/ou aquele recomendado pela montadora.
+
+Por isso estou satisfeito com a compra e inclusive os pneus já chegaram em casa:
 
 ![Imagem dos Pneus que chegaram em Casa](/assets/img/compra_pneus/pneus_chegaram.jpg)
 
@@ -504,13 +506,13 @@ Foram utilizados conhecimentos de data science e metodologias ágeis. Seguindo a
 
 Tanto o script completo quanto a base de dados consolidada estão disponíveis no meu [Repositório do GitHub](https://github.com/RoldanRamon/Compra-de-Pneus).
 
-Este artigo tem finalidade de estudo pessoal e não é recomendação de compra e/ou venda, caso tenha alguma dúvida técnica procure um mecânico de sua confiança.
-
 Pontos importantes em se destacar:
+
+-   Este artigo tem finalidade de estudo pessoal e não é recomendação de compra e/ou venda, caso tenha alguma dúvida técnica procure um mecânico de sua confiança.
 
 -   Os preços e disponibilidade de estoque estão sujeitos à mudança dinâmica do mercado varejista;
 
--   As especificações técnicas também podem sofrer alterações conforme novos decretos da agência regulamentadora;
+-   As especificações técnicas podem sofrer alterações conforme novos decretos da agência regulamentadora;
 
 -   O script para raspagem de dados foi criado considerando a estrutura atual da página pneus store, e mudanças estruturais no código fonte da página podem causar interferências no funcionamento.
 
