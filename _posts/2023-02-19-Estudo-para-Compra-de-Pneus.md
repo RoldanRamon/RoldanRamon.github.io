@@ -94,6 +94,8 @@ Este [Video](https://www.youtube.com/watch?v=867SbL5RulU) didatico explica com m
 
 ### Loja Pneu Store
 
+![Imagem do site Pneu Store](/assets/img/compra_pneus/print_pneustore.png)
+
 A [Pneu Store](https://www.pneustore.com.br/) é uma loja online especializada na comercialização de pneus para veículos em todo o território Brasileiro.
 
 Este site é referência de mercado por apresentar detalhes técnicos dos produtos, bem como preços competitivos de marcas renomeadas, e boas avaliações no reclame aqui.
@@ -117,8 +119,6 @@ No [video](https://www.youtube.com/watch?v=QIWJH8xKxcM) tem todo um estudo detal
 -   Volume do "trafego" para entender a quantidade de pessoas que compram diariamente;
 
 -   Parceiro comercial que realiza transporte.
-
-![Imagem do site Pneu Store](/assets/img/compra_pneus/print_pneustore.png)
 
 ## Coleta dos Dados
 
