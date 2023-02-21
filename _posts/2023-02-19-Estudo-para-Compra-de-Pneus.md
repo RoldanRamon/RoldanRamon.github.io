@@ -412,7 +412,7 @@ As varivárieis "**nota_registro_inmetro**", "**nota_indice_de_velocidade**", "*
 
 ### Produto Ganhador
 
-Com base nas características técnicas elencadas o produto que melhor atenderia nossas necessidades é "**Pneu Dynamo Aro 14 MH01 175/65R14 86T**".
+Com base nas características técnicas elencadas o produto que melhor atenderia nossas necessidades é [Pneu Dynamo Aro 14 MH01 175/65R14 86T](https://www.pneustore.com.br/categorias/pneus-de-carro/pneus-175-65r14/produto/pneu-dynamo-aro-14-mh01-175-65r14-86t-16002588).
 
 
 ```r
@@ -435,6 +435,10 @@ ggplot(df, aes(x = reorder(nome, nota_conceitual),y = nota_conceitual))+
 ```
 
 ![Desempenho Técnico](/assets/img/compra_pneus/desempenho_tecnico_dos_pneus.png)
+
+Abaixo maiores detalhes técnicos do produto ganhador:
+
+![Detalhes do Produto ganhador](/assets/img/compra_pneus/detalhes_do_produto_ganhador.png)
 
 ### Racional da Escolha do Pagamento
 
